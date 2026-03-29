@@ -38,7 +38,7 @@ bicep publish-extension `
 Requires [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) (`winget install Microsoft.DotNet.SDK.9`).
 
 ```powershell
-git clone https://github.com/sebastian/netbox-bicep-extension.git
+git clone https://github.com/NetboxTools/netbox-bicep-extension.git
 cd netbox-bicep-extension
 dotnet build bicep-ext-netbox.sln
 
