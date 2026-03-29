@@ -145,7 +145,18 @@ You should see:
 
 Running the same command again is safe — existing resources are updated, not duplicated.
 
+## Auto-Completion / IntelliSense
+
+The [Bicep VS Code extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-bicep) automatically provides IntelliSense for all resource types once the extension is referenced in your `bicepconfig.json`. You get:
+
+- Auto-complete for property names
+- Type validation and error highlighting
+- Hover descriptions for each property
+- Required vs optional field indicators
+
 ## Supported Resource Types
+
+### DCIM
 
 | Bicep Type | NetBox API | Identifier | Description |
 |-----------|-----------|------------|-------------|
@@ -154,10 +165,30 @@ Running the same command again is safe — existing resources are updated, not d
 | `DeviceRole` | `/api/dcim/device-roles/` | `slug` | Functional roles (router, switch, etc.) |
 | `DeviceType` | `/api/dcim/device-types/` | `slug` | Hardware models |
 | `Device` | `/api/dcim/devices/` | `name` | Physical devices |
+
+### Tenancy
+
+| Bicep Type | NetBox API | Identifier | Description |
+|-----------|-----------|------------|-------------|
 | `Tenant` | `/api/tenancy/tenants/` | `slug` | Customers / business units |
+
+### IPAM (complete)
+
+| Bicep Type | NetBox API | Identifier | Description |
+|-----------|-----------|------------|-------------|
 | `Prefix` | `/api/ipam/prefixes/` | `prefix` | IP subnets (CIDR) |
 | `IPAddress` | `/api/ipam/ip-addresses/` | `address` | Individual IPs (CIDR) |
+| `IPRange` | `/api/ipam/ip-ranges/` | `startAddress` | IP address ranges |
 | `VLAN` | `/api/ipam/vlans/` | `vid` | VLANs |
+| `VLANGroup` | `/api/ipam/vlan-groups/` | `slug` | VLAN groups |
+| `VLANTranslationPolicy` | `/api/ipam/vlan-translation-policies/` | `name` | VLAN translation policies |
+| `VRF` | `/api/ipam/vrfs/` | `name` | Virtual routing instances |
+| `RouteTarget` | `/api/ipam/route-targets/` | `name` | BGP route targets |
+| `RIR` | `/api/ipam/rirs/` | `slug` | Regional Internet Registries |
+| `Aggregate` | `/api/ipam/aggregates/` | `prefix` | Top-level IP aggregates |
+| `IPAMRole` | `/api/ipam/roles/` | `slug` | Prefix/VLAN functional roles |
+| `ASN` | `/api/ipam/asns/` | `asn` | Autonomous System Numbers |
+| `ASNRange` | `/api/ipam/asn-ranges/` | `slug` | ASN ranges |
 
 ## Sample Deployments
 
@@ -242,9 +273,17 @@ Running the same deployment twice is safe. The extension:
 - [NetBox REST API docs](https://netboxlabs.com/docs/netbox/integrations/rest-api/)
 - [Bicep extensibility docs](https://github.com/Azure/bicep-extensibility)
 
+## Support
+
+This is a community project maintained on a **best-effort basis**. If you encounter issues or have feature requests:
+
+- Open a [GitHub Issue](../../issues) using the provided templates
+- Pull requests are welcome — see [ARCHITECTURE.md](ARCHITECTURE.md) for how to add new resource types
+- There are no SLAs or guarantees on response times
+
 ## Disclaimer
 
-This project was generated with the assistance of Claude AI (Anthropic) and is provided **as-is**, without warranty of any kind. The Bicep extensibility SDK is an experimental feature — there are no guarantees about stability or breaking changes in future Bicep releases. Use at your own risk and always validate in a non-production environment first.
+This project was generated with the assistance of Claude AI (Anthropic) and is provided **as-is**, without warranty of any kind, express or implied. The Bicep extensibility SDK is an experimental feature — there are no guarantees about stability or breaking changes in future Bicep releases. Use at your own risk and always validate in a non-production environment first.
 
 ## License
 

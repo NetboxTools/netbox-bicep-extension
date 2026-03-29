@@ -268,7 +268,22 @@ public class Tenant : SlugIdentifiers
 }
 
 // ──────────────────────────────────────────────
-// IPAM: Prefixes, IP Addresses, VLANs
+// Shared base: resources that use name as their unique identifier
+// ──────────────────────────────────────────────
+
+/// <summary>
+/// Shared identifier for resources that use name as their unique key.
+/// Used by: VRF, RouteTarget, VLANTranslationPolicy.
+/// </summary>
+public class NameIdentifiers
+{
+    [TypeProperty("Unique name.", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
+    [JsonPropertyName("name")]
+    public required string Name { get; set; }
+}
+
+// ──────────────────────────────────────────────
+// IPAM: Prefixes, IP Addresses, VLANs, VRFs, and more
 // ──────────────────────────────────────────────
 
 /// <summary>
@@ -408,6 +423,296 @@ public class VLAN : VLANIdentifiers
     [JsonPropertyName("role")]
     public string? Role { get; set; }
 
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A VRF (Virtual Routing and Forwarding) instance.
+/// API: /api/ipam/vrfs/
+/// </summary>
+[ResourceType("VRF")]
+public class VRF : NameIdentifiers
+{
+    [TypeProperty("Route distinguisher (e.g. '65000:1').", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("rd")]
+    public string? Rd { get; set; }
+
+    [TypeProperty("Enforce unique IP space within this VRF (true/false).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("enforce_unique")]
+    public string? EnforceUnique { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("tenant")]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A BGP route target.
+/// API: /api/ipam/route-targets/
+/// </summary>
+[ResourceType("RouteTarget")]
+public class RouteTarget : NameIdentifiers
+{
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("tenant")]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A Regional Internet Registry (e.g. ARIN, RIPE, APNIC).
+/// API: /api/ipam/rirs/
+/// </summary>
+[ResourceType("RIR")]
+public class RIR : SlugIdentifiers
+{
+    [TypeProperty("RIR name.", ObjectTypePropertyFlags.Required)]
+    [JsonPropertyName("name")]
+    public required string Name { get; set; }
+
+    [TypeProperty("Whether this is a private registry (true/false).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("is_private")]
+    public string? IsPrivate { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// Identifier for an Aggregate. Uses CIDR prefix as the unique key.
+/// </summary>
+public class AggregateIdentifiers
+{
+    [TypeProperty("Aggregate prefix in CIDR notation (e.g. '10.0.0.0/8').", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
+    [JsonPropertyName("prefix")]
+    public required string Prefix { get; set; }
+}
+
+/// <summary>
+/// A top-level IP aggregate (allocated by a RIR).
+/// API: /api/ipam/aggregates/
+/// </summary>
+[ResourceType("Aggregate")]
+public class Aggregate : AggregateIdentifiers
+{
+    [TypeProperty("The RIR ID.", ObjectTypePropertyFlags.Required)]
+    [JsonPropertyName("rir")]
+    public required int Rir { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("tenant")]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("Date added (yyyy-MM-dd).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("date_added")]
+    public string? DateAdded { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// An IPAM role for prefixes and VLANs (e.g. Production, Development).
+/// API: /api/ipam/roles/
+/// </summary>
+[ResourceType("IPAMRole")]
+public class IPAMRole : SlugIdentifiers
+{
+    [TypeProperty("Role name.", ObjectTypePropertyFlags.Required)]
+    [JsonPropertyName("name")]
+    public required string Name { get; set; }
+
+    [TypeProperty("Sort weight for ordering.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("weight")]
+    public string? Weight { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// Identifier for an IP Range.
+/// </summary>
+public class IPRangeIdentifiers
+{
+    [TypeProperty("Start IP address in CIDR notation (e.g. '10.0.0.100/24').", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
+    [JsonPropertyName("start_address")]
+    public required string StartAddress { get; set; }
+}
+
+/// <summary>
+/// An arbitrary IP address range.
+/// API: /api/ipam/ip-ranges/
+/// </summary>
+[ResourceType("IPRange")]
+public class IPRange : IPRangeIdentifiers
+{
+    [TypeProperty("End IP address in CIDR notation (e.g. '10.0.0.200/24').", ObjectTypePropertyFlags.Required)]
+    [JsonPropertyName("end_address")]
+    public required string EndAddress { get; set; }
+
+    [TypeProperty("Operational status: active, reserved, deprecated.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("status")]
+    public string? Status { get; set; }
+
+    [TypeProperty("The VRF ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("vrf")]
+    public string? Vrf { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("tenant")]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("The IPAM role ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("role")]
+    public string? Role { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// Identifier for an ASN.
+/// </summary>
+public class ASNIdentifiers
+{
+    [TypeProperty("Autonomous System Number (e.g. 65000).", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
+    [JsonPropertyName("asn")]
+    public required int Asn { get; set; }
+}
+
+/// <summary>
+/// An Autonomous System Number.
+/// API: /api/ipam/asns/
+/// </summary>
+[ResourceType("ASN")]
+public class ASN : ASNIdentifiers
+{
+    [TypeProperty("The RIR ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("rir")]
+    public string? Rir { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("tenant")]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A range of Autonomous System Numbers.
+/// API: /api/ipam/asn-ranges/
+/// </summary>
+[ResourceType("ASNRange")]
+public class ASNRange : SlugIdentifiers
+{
+    [TypeProperty("Range name.", ObjectTypePropertyFlags.Required)]
+    [JsonPropertyName("name")]
+    public required string Name { get; set; }
+
+    [TypeProperty("The RIR ID.", ObjectTypePropertyFlags.Required)]
+    [JsonPropertyName("rir")]
+    public required int Rir { get; set; }
+
+    [TypeProperty("Starting ASN.", ObjectTypePropertyFlags.Required)]
+    [JsonPropertyName("start")]
+    public required int Start { get; set; }
+
+    [TypeProperty("Ending ASN.", ObjectTypePropertyFlags.Required)]
+    [JsonPropertyName("end")]
+    public required int End { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("tenant")]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A VLAN group for organizing VLANs.
+/// API: /api/ipam/vlan-groups/
+/// </summary>
+[ResourceType("VLANGroup")]
+public class VLANGroup : SlugIdentifiers
+{
+    [TypeProperty("Group name.", ObjectTypePropertyFlags.Required)]
+    [JsonPropertyName("name")]
+    public required string Name { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("tenant")]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    [JsonPropertyName("comments")]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A VLAN translation policy.
+/// API: /api/ipam/vlan-translation-policies/
+/// </summary>
+[ResourceType("VLANTranslationPolicy")]
+public class VLANTranslationPolicy : NameIdentifiers
+{
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
     [JsonPropertyName("description")]
     public string? Description { get; set; }

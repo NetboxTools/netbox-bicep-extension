@@ -23,7 +23,17 @@ builder.Services
     // IPAM
     .WithResourceHandler<PrefixHandler>()
     .WithResourceHandler<IPAddressHandler>()
-    .WithResourceHandler<VLANHandler>();
+    .WithResourceHandler<VLANHandler>()
+    .WithResourceHandler<VRFHandler>()
+    .WithResourceHandler<RouteTargetHandler>()
+    .WithResourceHandler<RIRHandler>()
+    .WithResourceHandler<AggregateHandler>()
+    .WithResourceHandler<IPAMRoleHandler>()
+    .WithResourceHandler<IPRangeHandler>()
+    .WithResourceHandler<ASNHandler>()
+    .WithResourceHandler<ASNRangeHandler>()
+    .WithResourceHandler<VLANGroupHandler>()
+    .WithResourceHandler<VLANTranslationPolicyHandler>();
 
 var app = builder.Build();
 app.MapBicepExtension();
