@@ -25,13 +25,13 @@ jobs:
         run: dotnet build bicep-ext-netbox.sln --configuration Release --no-restore
 
       - name: Publish (win-x64)
-        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r win-x64 -o ./artifacts/win-x64 --no-restore
+        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r win-x64 -o ./artifacts/win-x64
 
       - name: Publish (linux-x64)
-        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r linux-x64 -o ./artifacts/linux-x64 --no-restore
+        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r linux-x64 -o ./artifacts/linux-x64
 
       - name: Publish (osx-arm64)
-        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r osx-arm64 -o ./artifacts/osx-arm64 --no-restore
+        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r osx-arm64 -o ./artifacts/osx-arm64
 
       - name: Upload artifacts (win-x64)
         uses: actions/upload-artifact@v4

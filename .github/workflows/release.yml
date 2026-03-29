@@ -24,14 +24,11 @@ jobs:
         run: dotnet restore bicep-ext-netbox.sln
 
       - name: Publish (win-x64)
-        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r win-x64 -o ./release/win-x64 --no-restore
-
+        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r win-x64 -o ./release/win-x64
       - name: Publish (linux-x64)
-        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r linux-x64 -o ./release/linux-x64 --no-restore
-
+        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r linux-x64 -o ./release/linux-x64
       - name: Publish (osx-arm64)
-        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r osx-arm64 -o ./release/osx-arm64 --no-restore
-
+        run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r osx-arm64 -o ./release/osx-arm64
       - name: Package archives
         run: |
           cd release

@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Azure.Bicep.Types.Concrete;
 using Bicep.Local.Extension.Types.Attributes;
 
@@ -10,11 +9,10 @@ namespace Bicep.Extension.Netbox;
 public class Configuration
 {
     [TypeProperty("The base URL of the NetBox instance (e.g. https://netbox.example.com).", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("url")]
+
     public required string Url { get; set; }
 
     [TypeProperty("The NetBox API token for authentication.", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.WriteOnly)]
-    [JsonPropertyName("token")]
     public required string Token { get; set; }
 }
 
@@ -29,7 +27,6 @@ public class Configuration
 public class SlugIdentifiers
 {
     [TypeProperty("URL-friendly unique identifier (e.g. 'my-datacenter').", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
-    [JsonPropertyName("slug")]
     public required string Slug { get; set; }
 }
 
@@ -45,43 +42,33 @@ public class SlugIdentifiers
 public class Site : SlugIdentifiers
 {
     [TypeProperty("Full name of the site.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 
     [TypeProperty("Operational status: planned, staging, active, decommissioning, retired.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("status")]
     public string? Status { get; set; }
 
     [TypeProperty("Local facility ID or description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("facility")]
     public string? Facility { get; set; }
 
     [TypeProperty("A brief description of the site.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Physical address of the site.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("physical_address")]
     public string? PhysicalAddress { get; set; }
 
     [TypeProperty("Shipping address (if different from physical).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("shipping_address")]
     public string? ShippingAddress { get; set; }
 
     [TypeProperty("IANA time zone (e.g. 'America/New_York').", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("time_zone")]
     public string? TimeZone { get; set; }
 
     [TypeProperty("GPS latitude (-90 to 90) as a string (e.g. '59.3293').", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("latitude")]
     public string? Latitude { get; set; }
 
     [TypeProperty("GPS longitude (-180 to 180) as a string (e.g. '18.0686').", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("longitude")]
     public string? Longitude { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -93,15 +80,12 @@ public class Site : SlugIdentifiers
 public class Manufacturer : SlugIdentifiers
 {
     [TypeProperty("Manufacturer name.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -113,23 +97,18 @@ public class Manufacturer : SlugIdentifiers
 public class DeviceRole : SlugIdentifiers
 {
     [TypeProperty("Role name.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 
     [TypeProperty("Color in hex (e.g. 'aa1409').", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("color")]
     public string? Color { get; set; }
 
     [TypeProperty("Whether this role can be assigned to virtual machines (true/false).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("vm_role")]
     public string? VmRole { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -141,31 +120,24 @@ public class DeviceRole : SlugIdentifiers
 public class DeviceType : SlugIdentifiers
 {
     [TypeProperty("The manufacturer ID.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("manufacturer")]
     public required int Manufacturer { get; set; }
 
     [TypeProperty("Model name.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("model")]
     public required string Model { get; set; }
 
     [TypeProperty("Part number.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("part_number")]
     public string? PartNumber { get; set; }
 
     [TypeProperty("Height in rack units.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("u_height")]
     public string? UHeight { get; set; }
 
     [TypeProperty("Whether the device takes up the full depth of a rack (true/false).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("is_full_depth")]
     public string? IsFullDepth { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -175,7 +147,6 @@ public class DeviceType : SlugIdentifiers
 public class DeviceIdentifiers
 {
     [TypeProperty("Device name (unique per site).", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 }
 
@@ -187,55 +158,42 @@ public class DeviceIdentifiers
 public class Device : DeviceIdentifiers
 {
     [TypeProperty("The device type ID (hardware model).", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("device_type")]
     public required int DeviceType { get; set; }
 
     [TypeProperty("The device role ID.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("role")]
     public required int Role { get; set; }
 
     [TypeProperty("The site ID where this device is located.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("site")]
     public required int Site { get; set; }
 
     [TypeProperty("Operational status: offline, active, planned, staged, failed, inventory, decommissioning.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("status")]
     public string? Status { get; set; }
 
     [TypeProperty("The rack ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("rack")]
     public string? Rack { get; set; }
 
     [TypeProperty("Position in rack (starting from bottom).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("position")]
     public string? Position { get; set; }
 
     [TypeProperty("Rack face: front, rear.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("face")]
     public string? Face { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("The platform ID (OS/firmware).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("platform")]
     public string? Platform { get; set; }
 
     [TypeProperty("Serial number.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("serial")]
     public string? Serial { get; set; }
 
     [TypeProperty("Unique asset tag.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("asset_tag")]
     public string? AssetTag { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -251,19 +209,15 @@ public class Device : DeviceIdentifiers
 public class Tenant : SlugIdentifiers
 {
     [TypeProperty("Tenant name.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 
     [TypeProperty("The tenant group ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("group")]
     public string? Group { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -278,7 +232,6 @@ public class Tenant : SlugIdentifiers
 public class NameIdentifiers
 {
     [TypeProperty("Unique name.", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 }
 
@@ -292,7 +245,6 @@ public class NameIdentifiers
 public class PrefixIdentifiers
 {
     [TypeProperty("IP prefix in CIDR notation (e.g. '10.0.0.0/24').", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
-    [JsonPropertyName("prefix")]
     public required string Prefix { get; set; }
 }
 
@@ -304,35 +256,27 @@ public class PrefixIdentifiers
 public class Prefix : PrefixIdentifiers
 {
     [TypeProperty("Operational status: container, active, reserved, deprecated.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("status")]
     public string? Status { get; set; }
 
     [TypeProperty("The VRF ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("vrf")]
     public string? Vrf { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("The VLAN ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("vlan")]
     public string? Vlan { get; set; }
 
     [TypeProperty("The IPAM role ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("role")]
     public string? Role { get; set; }
 
     [TypeProperty("Treat this prefix as a pool of available addresses (true/false).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("is_pool")]
     public string? IsPool { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -342,7 +286,6 @@ public class Prefix : PrefixIdentifiers
 public class IPAddressIdentifiers
 {
     [TypeProperty("IP address in CIDR notation (e.g. '10.0.0.1/24').", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
-    [JsonPropertyName("address")]
     public required string Address { get; set; }
 }
 
@@ -354,31 +297,24 @@ public class IPAddressIdentifiers
 public class IPAddress : IPAddressIdentifiers
 {
     [TypeProperty("Operational status: active, reserved, deprecated, dhcp, slaac.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("status")]
     public string? Status { get; set; }
 
     [TypeProperty("Functional role: loopback, secondary, anycast, vip, vrrp, hsrp, glbp, carp.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("role")]
     public string? Role { get; set; }
 
     [TypeProperty("The VRF ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("vrf")]
     public string? Vrf { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("DNS hostname.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("dns_name")]
     public string? DnsName { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -388,7 +324,6 @@ public class IPAddress : IPAddressIdentifiers
 public class VLANIdentifiers
 {
     [TypeProperty("VLAN ID number (1-4094).", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
-    [JsonPropertyName("vid")]
     public required int Vid { get; set; }
 }
 
@@ -400,35 +335,27 @@ public class VLANIdentifiers
 public class VLAN : VLANIdentifiers
 {
     [TypeProperty("VLAN name.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 
     [TypeProperty("Operational status: active, reserved, deprecated.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("status")]
     public string? Status { get; set; }
 
     [TypeProperty("The VLAN group ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("group")]
     public string? Group { get; set; }
 
     [TypeProperty("The site ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("site")]
     public string? Site { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("The IPAM role ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("role")]
     public string? Role { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -440,23 +367,18 @@ public class VLAN : VLANIdentifiers
 public class VRF : NameIdentifiers
 {
     [TypeProperty("Route distinguisher (e.g. '65000:1').", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("rd")]
     public string? Rd { get; set; }
 
     [TypeProperty("Enforce unique IP space within this VRF (true/false).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("enforce_unique")]
     public string? EnforceUnique { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -468,15 +390,12 @@ public class VRF : NameIdentifiers
 public class RouteTarget : NameIdentifiers
 {
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -488,19 +407,15 @@ public class RouteTarget : NameIdentifiers
 public class RIR : SlugIdentifiers
 {
     [TypeProperty("RIR name.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 
     [TypeProperty("Whether this is a private registry (true/false).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("is_private")]
     public string? IsPrivate { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -510,7 +425,6 @@ public class RIR : SlugIdentifiers
 public class AggregateIdentifiers
 {
     [TypeProperty("Aggregate prefix in CIDR notation (e.g. '10.0.0.0/8').", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
-    [JsonPropertyName("prefix")]
     public required string Prefix { get; set; }
 }
 
@@ -522,23 +436,18 @@ public class AggregateIdentifiers
 public class Aggregate : AggregateIdentifiers
 {
     [TypeProperty("The RIR ID.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("rir")]
     public required int Rir { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("Date added (yyyy-MM-dd).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("date_added")]
     public string? DateAdded { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -550,19 +459,15 @@ public class Aggregate : AggregateIdentifiers
 public class IPAMRole : SlugIdentifiers
 {
     [TypeProperty("Role name.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 
     [TypeProperty("Sort weight for ordering.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("weight")]
     public string? Weight { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -572,7 +477,6 @@ public class IPAMRole : SlugIdentifiers
 public class IPRangeIdentifiers
 {
     [TypeProperty("Start IP address in CIDR notation (e.g. '10.0.0.100/24').", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
-    [JsonPropertyName("start_address")]
     public required string StartAddress { get; set; }
 }
 
@@ -584,31 +488,24 @@ public class IPRangeIdentifiers
 public class IPRange : IPRangeIdentifiers
 {
     [TypeProperty("End IP address in CIDR notation (e.g. '10.0.0.200/24').", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("end_address")]
     public required string EndAddress { get; set; }
 
     [TypeProperty("Operational status: active, reserved, deprecated.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("status")]
     public string? Status { get; set; }
 
     [TypeProperty("The VRF ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("vrf")]
     public string? Vrf { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("The IPAM role ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("role")]
     public string? Role { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -618,7 +515,6 @@ public class IPRange : IPRangeIdentifiers
 public class ASNIdentifiers
 {
     [TypeProperty("Autonomous System Number (e.g. 65000).", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
-    [JsonPropertyName("asn")]
     public required int Asn { get; set; }
 }
 
@@ -629,20 +525,16 @@ public class ASNIdentifiers
 [ResourceType("ASN")]
 public class ASN : ASNIdentifiers
 {
-    [TypeProperty("The RIR ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("rir")]
-    public string? Rir { get; set; }
+    [TypeProperty("The RIR ID (required in NetBox v4.5+).", ObjectTypePropertyFlags.Required)]
+    public required int Rir { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -654,31 +546,24 @@ public class ASN : ASNIdentifiers
 public class ASNRange : SlugIdentifiers
 {
     [TypeProperty("Range name.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 
     [TypeProperty("The RIR ID.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("rir")]
     public required int Rir { get; set; }
 
     [TypeProperty("Starting ASN.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("start")]
     public required int Start { get; set; }
 
     [TypeProperty("Ending ASN.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("end")]
     public required int End { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -690,19 +575,15 @@ public class ASNRange : SlugIdentifiers
 public class VLANGroup : SlugIdentifiers
 {
     [TypeProperty("Group name.", ObjectTypePropertyFlags.Required)]
-    [JsonPropertyName("name")]
     public required string Name { get; set; }
 
     [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("tenant")]
     public string? Tenant { get; set; }
 
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
 
@@ -714,10 +595,8 @@ public class VLANGroup : SlugIdentifiers
 public class VLANTranslationPolicy : NameIdentifiers
 {
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
-    [JsonPropertyName("comments")]
     public string? Comments { get; set; }
 }
