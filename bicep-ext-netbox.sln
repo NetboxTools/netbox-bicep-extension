@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bicep-ext-netbox", "src\bicep-ext-netbox.csproj", "{CC6AE38A-3AA4-4372-BC94-D93D50A4F1F0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bicep.Extension.Netbox.Tests", "tests\Bicep.Extension.Netbox.Tests.csproj", "{C82E7030-21A9-4B3A-987F-999C7C6E81F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,11 +33,24 @@ Global
 		{CC6AE38A-3AA4-4372-BC94-D93D50A4F1F0}.Release|x64.Build.0 = Release|Any CPU
 		{CC6AE38A-3AA4-4372-BC94-D93D50A4F1F0}.Release|x86.ActiveCfg = Release|Any CPU
 		{CC6AE38A-3AA4-4372-BC94-D93D50A4F1F0}.Release|x86.Build.0 = Release|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Debug|x64.Build.0 = Debug|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Debug|x86.Build.0 = Debug|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Release|x64.ActiveCfg = Release|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Release|x64.Build.0 = Release|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CC6AE38A-3AA4-4372-BC94-D93D50A4F1F0} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{C82E7030-21A9-4B3A-987F-999C7C6E81F8} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 EndGlobal
