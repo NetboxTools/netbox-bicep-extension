@@ -50,14 +50,18 @@ Bicep extension that wraps the NetBox REST API, allowing NetBox resources to be 
 - Architecture decisions go in `ARCHITECTURE.md`
 - Keep sample Bicep files working and tested
 
-### Testing
+### Testing — MANDATORY before committing
 
-- Build: `dotnet build bicep-ext-netbox.sln`
-- Publish: `dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r win-x64 -o ./extension-publish/win-x64`
-- Package: `bicep publish-extension --bin-win-x64 ./extension-publish/win-x64/bicep-ext-netbox.exe --target ./extension-publish/bicep-ext-netbox --force`
-- Clear Bicep cache after repackaging: `rm -rf ~/.bicep/local/`
-- Deploy: `bicep local-deploy ./samples/basic/main.bicepparam`
-- NetBox runs locally via Docker in WSL2 on `http://localhost:8000`
+**Every commit that changes code or models MUST be validated by:**
+
+1. Build: `dotnet build bicep-ext-netbox.sln`
+2. Publish: `dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r win-x64 -o ./extension-publish/win-x64`
+3. Package: `bicep publish-extension --bin-win-x64 ./extension-publish/win-x64/bicep-ext-netbox.exe --target ./extension-publish/bicep-ext-netbox --force`
+4. Clear Bicep cache: `rm -rf ~/.bicep/local/`
+5. Test deploy against NetBox: `bicep local-deploy ./samples/basic/main.bicepparam`
+6. If new resource types were added, deploy the relevant sample that exercises them
+
+**Do not commit if any step fails.** NetBox runs locally via Docker in WSL2 on `http://localhost:8000`.
 
 ## What-If Support
 
