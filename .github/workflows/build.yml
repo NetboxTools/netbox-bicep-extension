@@ -24,6 +24,9 @@ jobs:
       - name: Build
         run: dotnet build bicep-ext-netbox.sln --configuration Release --no-restore
 
+      - name: Test
+        run: dotnet test bicep-ext-netbox.sln --configuration Release --no-restore --verbosity normal
+
       - name: Publish (win-x64)
         run: dotnet publish src/bicep-ext-netbox.csproj --configuration Release -r win-x64 -o ./artifacts/win-x64
 
