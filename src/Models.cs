@@ -769,3 +769,160 @@ public class VirtualDisk : NameIdentifiers
     [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
     public string? Description { get; set; }
 }
+
+// ──────────────────────────────────────────────
+// DCIM: Racks, RackRoles, Locations
+// ──────────────────────────────────────────────
+
+/// <summary>
+/// A functional role for racks (e.g. Compute, Storage, Networking).
+/// API: /api/dcim/rack-roles/
+/// </summary>
+[ResourceType("RackRole")]
+public class RackRole : SlugIdentifiers
+{
+    [TypeProperty("Role name.", ObjectTypePropertyFlags.Required)]
+    public required string Name { get; set; }
+
+    [TypeProperty("Color in hex (e.g. '4caf50').", ObjectTypePropertyFlags.None)]
+    public string? Color { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A location within a site (e.g. building, floor, room, cage).
+/// API: /api/dcim/locations/
+/// </summary>
+[ResourceType("Location")]
+public class Location : SlugIdentifiers
+{
+    [TypeProperty("Location name.", ObjectTypePropertyFlags.Required)]
+    public required string Name { get; set; }
+
+    [TypeProperty("The site ID (required).", ObjectTypePropertyFlags.Required)]
+    public required int Site { get; set; }
+
+    [TypeProperty("The parent location ID (for nesting).", ObjectTypePropertyFlags.None)]
+    public string? Parent { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("Operational status: planned, staging, active, decommissioning, retired.", ObjectTypePropertyFlags.None)]
+    public string? Status { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// Identifier for a Rack. Uses name as the unique key (unique per site).
+/// </summary>
+public class RackIdentifiers
+{
+    [TypeProperty("Rack name (unique per site).", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
+    public required string Name { get; set; }
+}
+
+/// <summary>
+/// A physical equipment rack.
+/// API: /api/dcim/racks/
+/// </summary>
+[ResourceType("Rack")]
+public class Rack : RackIdentifiers
+{
+    [TypeProperty("The site ID (required).", ObjectTypePropertyFlags.Required)]
+    public required int Site { get; set; }
+
+    [TypeProperty("Operational status: reserved, available, planned, active, deprecated.", ObjectTypePropertyFlags.None)]
+    public string? Status { get; set; }
+
+    [TypeProperty("The rack role ID.", ObjectTypePropertyFlags.None)]
+    public string? Role { get; set; }
+
+    [TypeProperty("The location ID (room, floor, etc.).", ObjectTypePropertyFlags.None)]
+    public string? Location { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("Serial number.", ObjectTypePropertyFlags.None)]
+    public string? Serial { get; set; }
+
+    [TypeProperty("Unique asset tag.", ObjectTypePropertyFlags.None)]
+    public string? AssetTag { get; set; }
+
+    [TypeProperty("Facility ID (data center reference).", ObjectTypePropertyFlags.None)]
+    public string? FacilityId { get; set; }
+
+    [TypeProperty("Height in rack units (e.g. '42').", ObjectTypePropertyFlags.None)]
+    public string? UHeight { get; set; }
+
+    [TypeProperty("Rail-to-rail width: 10, 19, 21, 23 (inches).", ObjectTypePropertyFlags.None)]
+    public string? Width { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    public string? Comments { get; set; }
+}
+
+// ──────────────────────────────────────────────
+// Users: Users and Groups
+// ──────────────────────────────────────────────
+
+/// <summary>
+/// Identifier for a User. Uses username as the unique key.
+/// </summary>
+public class UsernameIdentifiers
+{
+    [TypeProperty("Username.", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.Identifier)]
+    public required string Username { get; set; }
+}
+
+/// <summary>
+/// A NetBox user account.
+/// API: /api/users/users/
+/// WARNING: Managing users via IaC requires careful handling of passwords.
+/// </summary>
+[ResourceType("User")]
+public class User : UsernameIdentifiers
+{
+    [TypeProperty("Password (write-only, never returned).", ObjectTypePropertyFlags.Required | ObjectTypePropertyFlags.WriteOnly)]
+    public required string Password { get; set; }
+
+    [TypeProperty("First name.", ObjectTypePropertyFlags.None)]
+    public string? FirstName { get; set; }
+
+    [TypeProperty("Last name.", ObjectTypePropertyFlags.None)]
+    public string? LastName { get; set; }
+
+    [TypeProperty("Email address.", ObjectTypePropertyFlags.None)]
+    public string? Email { get; set; }
+
+    [TypeProperty("Whether the user has staff access (true/false).", ObjectTypePropertyFlags.None)]
+    public string? IsStaff { get; set; }
+
+    [TypeProperty("Whether the user account is active (true/false).", ObjectTypePropertyFlags.None)]
+    public string? IsActive { get; set; }
+}
+
+/// <summary>
+/// A user group for permissions.
+/// API: /api/users/groups/
+/// </summary>
+[ResourceType("UserGroup")]
+public class UserGroup : NameIdentifiers
+{
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+}

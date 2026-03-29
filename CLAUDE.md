@@ -37,12 +37,18 @@ Bicep extension that wraps the NetBox REST API, allowing NetBox resources to be 
 - Follow the structure of the sample Bicep extensions
 - Only use types supported by the Bicep SDK: `string`, `string?`, `int`, `bool`, `required` variants — no `int?`, `bool?`, or `double?`
 
-### Security
+### Security and Compliance
+
+This solution may be deployed in sectors with **high regulatory requirements** (finance, healthcare, government, critical infrastructure). All decisions must account for this:
 
 - **Never commit tokens or secrets** — `token.txt`, `.env` are in `.gitignore`
 - Token auth must auto-detect v1 (`Token`) vs v2 (`Bearer`) based on `nbt_` prefix
 - Track vulnerabilities and security concerns in `vulnerabilities.md`
 - Warn about any new risks you cannot mitigate yourself
+- **Third-party packages**: All NuGet dependencies must be documented with name, version, publisher, and purpose. Environments may require packages to be sourced via an internal proxy/mirror — do not assume direct internet access to nuget.org
+- **Dependency changes**: Any addition, removal, or version change of a NuGet package must be documented in `vulnerabilities.md` with a risk assessment
+- **Compliance impact**: Any feature that handles credentials, user data, or network configuration must document its security implications in `vulnerabilities.md`
+- **Minimize dependencies**: Do not add NuGet packages unless absolutely required. Use `HttpClient` and `System.Text.Json` (built into .NET) rather than third-party HTTP or JSON libraries. Current production dependencies: `Azure.Bicep.Local.Extension` and `Bicep.LocalDeploy` only
 
 ### Documentation
 
