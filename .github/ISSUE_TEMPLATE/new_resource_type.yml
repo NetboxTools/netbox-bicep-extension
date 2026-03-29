@@ -1,0 +1,42 @@
+name: New Resource Type Request
+description: Request support for a new NetBox resource type
+labels: ["enhancement", "new-resource"]
+body:
+  - type: input
+    id: resource-name
+    attributes:
+      label: Resource Name
+      description: The NetBox resource type name.
+      placeholder: "e.g. Interface, Cable, Platform"
+    validations:
+      required: true
+  - type: input
+    id: api-endpoint
+    attributes:
+      label: API Endpoint
+      description: The NetBox REST API endpoint for this resource.
+      placeholder: "e.g. /api/dcim/interfaces/"
+    validations:
+      required: true
+  - type: textarea
+    id: required-fields
+    attributes:
+      label: Required Fields
+      description: List the required fields and their types.
+      placeholder: |
+        | Field | Type | Description |
+        |-------|------|-------------|
+        | name | string | Interface name |
+    validations:
+      required: true
+  - type: textarea
+    id: optional-fields
+    attributes:
+      label: Optional Fields
+      description: List key optional fields.
+  - type: input
+    id: api-docs
+    attributes:
+      label: Link to API Docs
+      description: Link to the NetBox Swagger or API documentation for this resource.
+      placeholder: "https://demo.netbox.dev/api/schema/swagger-ui/#/..."
