@@ -33,7 +33,14 @@ builder.Services
     .WithResourceHandler<ASNHandler>()
     .WithResourceHandler<ASNRangeHandler>()
     .WithResourceHandler<VLANGroupHandler>()
-    .WithResourceHandler<VLANTranslationPolicyHandler>();
+    .WithResourceHandler<VLANTranslationPolicyHandler>()
+    // Virtualization
+    .WithResourceHandler<ClusterTypeHandler>()
+    .WithResourceHandler<ClusterGroupHandler>()
+    .WithResourceHandler<ClusterHandler>()
+    .WithResourceHandler<VirtualMachineHandler>()
+    .WithResourceHandler<VMInterfaceHandler>()
+    .WithResourceHandler<VirtualDiskHandler>();
 
 var app = builder.Build();
 app.MapBicepExtension();

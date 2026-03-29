@@ -172,6 +172,17 @@ The [Bicep VS Code extension](https://marketplace.visualstudio.com/items?itemNam
 |-----------|-----------|------------|-------------|
 | `Tenant` | `/api/tenancy/tenants/` | `slug` | Customers / business units |
 
+### Virtualization (complete)
+
+| Bicep Type | NetBox API | Identifier | Description |
+|-----------|-----------|------------|-------------|
+| `ClusterType` | `/api/virtualization/cluster-types/` | `slug` | Cluster technology (VMware, Hyper-V, Azure) |
+| `ClusterGroup` | `/api/virtualization/cluster-groups/` | `slug` | Logical groups of clusters |
+| `Cluster` | `/api/virtualization/clusters/` | `name` | Virtualization clusters |
+| `VirtualMachine` | `/api/virtualization/virtual-machines/` | `name` | Virtual machines |
+| `VMInterface` | `/api/virtualization/interfaces/` | `name` | VM network interfaces |
+| `VirtualDisk` | `/api/virtualization/virtual-disks/` | `name` | VM virtual disks |
+
 ### IPAM (complete)
 
 | Bicep Type | NetBox API | Identifier | Description |
@@ -198,6 +209,8 @@ The [Bicep VS Code extension](https://marketplace.visualstudio.com/items?itemNam
 | [full](samples/full/) | Multi-type overview | 7 resources |
 | [datacenter](samples/datacenter/) | Tenant, 2 sites, manufacturers, roles | 10 resources |
 | [ipam](samples/ipam/) | VLANs, prefixes, IP addresses | 11 resources |
+| [ipam-full](samples/ipam-full/) | All IPAM types: VRFs, RIRs, ASNs, etc. | 13 resources |
+| [virtualization](samples/virtualization/) | Cluster types, clusters, VMs | 9 resources |
 
 Deploy any sample:
 

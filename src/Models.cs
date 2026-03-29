@@ -600,3 +600,172 @@ public class VLANTranslationPolicy : NameIdentifiers
     [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
     public string? Comments { get; set; }
 }
+
+// ──────────────────────────────────────────────
+// Virtualization: ClusterTypes, ClusterGroups, Clusters, VMs, Interfaces, Disks
+// ──────────────────────────────────────────────
+
+/// <summary>
+/// A cluster technology type (e.g. VMware, Hyper-V, Proxmox).
+/// API: /api/virtualization/cluster-types/
+/// </summary>
+[ResourceType("ClusterType")]
+public class ClusterType : SlugIdentifiers
+{
+    [TypeProperty("Cluster type name.", ObjectTypePropertyFlags.Required)]
+    public required string Name { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A logical group of clusters.
+/// API: /api/virtualization/cluster-groups/
+/// </summary>
+[ResourceType("ClusterGroup")]
+public class ClusterGroup : SlugIdentifiers
+{
+    [TypeProperty("Cluster group name.", ObjectTypePropertyFlags.Required)]
+    public required string Name { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A virtualization cluster (e.g. a vCenter cluster, AKS cluster).
+/// API: /api/virtualization/clusters/
+/// </summary>
+[ResourceType("Cluster")]
+public class Cluster : NameIdentifiers
+{
+    [TypeProperty("The cluster type ID.", ObjectTypePropertyFlags.Required)]
+    public required int Type { get; set; }
+
+    [TypeProperty("Operational status: planned, staging, active, decommissioning, offline.", ObjectTypePropertyFlags.None)]
+    public string? Status { get; set; }
+
+    [TypeProperty("The cluster group ID.", ObjectTypePropertyFlags.None)]
+    public string? Group { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A virtual machine.
+/// API: /api/virtualization/virtual-machines/
+/// </summary>
+[ResourceType("VirtualMachine")]
+public class VirtualMachine : NameIdentifiers
+{
+    [TypeProperty("Operational status: offline, active, planned, staged, failed, decommissioning, paused.", ObjectTypePropertyFlags.None)]
+    public string? Status { get; set; }
+
+    [TypeProperty("The site ID.", ObjectTypePropertyFlags.None)]
+    public string? Site { get; set; }
+
+    [TypeProperty("The cluster ID.", ObjectTypePropertyFlags.None)]
+    public string? Cluster { get; set; }
+
+    [TypeProperty("The device ID (physical host).", ObjectTypePropertyFlags.None)]
+    public string? Device { get; set; }
+
+    [TypeProperty("The device role ID.", ObjectTypePropertyFlags.None)]
+    public string? Role { get; set; }
+
+    [TypeProperty("The tenant ID.", ObjectTypePropertyFlags.None)]
+    public string? Tenant { get; set; }
+
+    [TypeProperty("The platform ID (OS/firmware).", ObjectTypePropertyFlags.None)]
+    public string? Platform { get; set; }
+
+    [TypeProperty("Serial number.", ObjectTypePropertyFlags.None)]
+    public string? Serial { get; set; }
+
+    [TypeProperty("Number of virtual CPUs (e.g. '4' or '2.5').", ObjectTypePropertyFlags.None)]
+    public string? Vcpus { get; set; }
+
+    [TypeProperty("Memory in MB (e.g. '4096').", ObjectTypePropertyFlags.None)]
+    public string? Memory { get; set; }
+
+    [TypeProperty("Disk size in MB (e.g. '102400').", ObjectTypePropertyFlags.None)]
+    public string? Disk { get; set; }
+
+    [TypeProperty("Primary IPv4 address ID.", ObjectTypePropertyFlags.None)]
+    public string? PrimaryIp4 { get; set; }
+
+    [TypeProperty("Primary IPv6 address ID.", ObjectTypePropertyFlags.None)]
+    public string? PrimaryIp6 { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+
+    [TypeProperty("Free-text comments (markdown supported).", ObjectTypePropertyFlags.None)]
+    public string? Comments { get; set; }
+}
+
+/// <summary>
+/// A network interface on a virtual machine.
+/// API: /api/virtualization/interfaces/
+/// </summary>
+[ResourceType("VMInterface")]
+public class VMInterface : NameIdentifiers
+{
+    [TypeProperty("The virtual machine ID.", ObjectTypePropertyFlags.Required)]
+    public required int VirtualMachine { get; set; }
+
+    [TypeProperty("Whether the interface is enabled (true/false).", ObjectTypePropertyFlags.None)]
+    public string? Enabled { get; set; }
+
+    [TypeProperty("MTU (1-65536).", ObjectTypePropertyFlags.None)]
+    public string? Mtu { get; set; }
+
+    [TypeProperty("802.1Q mode: access, tagged, tagged-all, q-in-q.", ObjectTypePropertyFlags.None)]
+    public string? Mode { get; set; }
+
+    [TypeProperty("The parent interface ID.", ObjectTypePropertyFlags.None)]
+    public string? Parent { get; set; }
+
+    [TypeProperty("The bridge interface ID.", ObjectTypePropertyFlags.None)]
+    public string? Bridge { get; set; }
+
+    [TypeProperty("The untagged VLAN ID.", ObjectTypePropertyFlags.None)]
+    public string? UntaggedVlan { get; set; }
+
+    [TypeProperty("The VRF ID.", ObjectTypePropertyFlags.None)]
+    public string? Vrf { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+}
+
+/// <summary>
+/// A virtual disk attached to a virtual machine.
+/// API: /api/virtualization/virtual-disks/
+/// </summary>
+[ResourceType("VirtualDisk")]
+public class VirtualDisk : NameIdentifiers
+{
+    [TypeProperty("The virtual machine ID.", ObjectTypePropertyFlags.Required)]
+    public required int VirtualMachine { get; set; }
+
+    [TypeProperty("Disk size in MB.", ObjectTypePropertyFlags.Required)]
+    public required int Size { get; set; }
+
+    [TypeProperty("A brief description.", ObjectTypePropertyFlags.None)]
+    public string? Description { get; set; }
+}
