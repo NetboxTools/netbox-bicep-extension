@@ -149,9 +149,18 @@ scripts/
 
 ## What-If Support
 
-The extension supports Bicep's what-if / preview mode via the `Preview()` handler method. Currently it returns the desired resource state without making API calls (matching the pattern used by all official sample extensions).
+**Current status:** The `Preview()` handler method is implemented and returns the desired resource state without making API calls (matching all official sample extensions). However, the Bicep CLI (`bicep local-deploy`) does not currently expose a `--what-if` flag for local extensions. The `Preview()` method is used internally by the SDK during `bicep build` for type validation only.
 
-**Planned enhancement:** Once we have a test NetBox environment, we intend to query the NetBox API during preview to show whether a deployment would create or update a resource, and what fields would change.
+**Limitation:** This is a limitation of the experimental Bicep extensibility SDK, not this extension. There is no way for users to run a what-if/dry-run deployment against NetBox with the current Bicep CLI.
+
+**What works today:**
+- `bicep build` validates your Bicep file against the resource type schemas (property names, required fields, types)
+- Deployments are idempotent — running twice creates then updates, never duplicates
+
+**What doesn't work yet:**
+- No `--what-if` CLI flag for `bicep local-deploy`
+- No create-vs-update diff output before deploying
+- No delete detection (resources removed from Bicep are not removed from NetBox)
 
 ## Adding New Resource Types
 

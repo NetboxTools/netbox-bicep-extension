@@ -61,7 +61,7 @@ Bicep extension that wraps the NetBox REST API, allowing NetBox resources to be 
 
 ## What-If Support
 
-Support for what-if deployments via the `Preview()` handler method. Currently returns desired state without API calls. Planned enhancement: query NetBox during preview to show create-vs-update diff.
+The `Preview()` handler method is implemented but the Bicep CLI does not expose a `--what-if` flag for local extensions. This is a limitation of the experimental Bicep extensibility SDK. The `Preview()` method is used internally during `bicep build` for type validation only. No create-vs-update diff is available before deploying.
 
 ## Adding New Resource Types
 
