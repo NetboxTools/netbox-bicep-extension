@@ -162,6 +162,29 @@ scripts/
 - No create-vs-update diff output before deploying
 - No delete detection (resources removed from Bicep are not removed from NetBox)
 
+## Known Limitations
+
+### Resources not supported via REST API
+
+Some NetBox features are only configurable through the web UI or `configuration.py` and have no REST API endpoints:
+
+| Feature | Why | Workaround |
+|---------|-----|------------|
+| **Landing page banners** (`BANNER_TOP`, `BANNER_BOTTOM`, `BANNER_LOGIN`) | Stored in `ConfigRevision` model with no API viewset | Set via web UI (Admin > Configuration) or hardcode in `configuration.py` |
+| **System settings** (maintenance mode, pagination, login requirements) | Same `ConfigRevision` system — UI only | Same as above |
+
+This is a NetBox limitation — if the NetBox project adds a REST API for `ConfigRevision` in the future, we can add Bicep support for these settings.
+
+### Bicep SDK type limitations
+
+The `Azure.Bicep.Local.Extension` SDK does not support nullable value types:
+- No `int?`, `bool?`, or `double?` — optional numeric/boolean fields use `string?` instead
+- No array types (`int[]`, `string[]`) — resources requiring arrays (ServiceTemplate, Service, FHRP Group Assignment) are not yet supported
+
+### No delete support
+
+Removing a resource from your Bicep file and redeploying will **not** delete it from NetBox. The extension only creates and updates. This is the safer default and matches the behavior of all official sample Bicep extensions.
+
 ## Adding New Resource Types
 
 To add a new NetBox resource type:
