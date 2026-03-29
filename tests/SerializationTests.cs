@@ -48,9 +48,9 @@ public class SerializationTests
         var device = new Device
         {
             Name = "switch-01",
-            DeviceType = 1,
-            Role = 2,
-            Site = 3,
+            DeviceType = "1",
+            Role = "2",
+            Site = "3",
             AssetTag = "ABC123"
         };
 
@@ -105,7 +105,7 @@ public class SerializationTests
         var iface = new VMInterface
         {
             Name = "eth0",
-            VirtualMachine = 1,
+            VirtualMachine = "1",
             UntaggedVlan = "100"
         };
 

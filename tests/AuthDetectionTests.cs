@@ -16,7 +16,7 @@ public class AuthDetectionTests
     /// </summary>
     private static HttpClient CreateClient(string token)
     {
-        var method = typeof(NetboxResourceHandlerBase<Site, SlugIdentifiers>)
+        var method = typeof(NetboxResourceHandlerBase<Site, NameSlugIdentifiers>)
             .GetMethod("CreateHttpClient", BindingFlags.Static | BindingFlags.NonPublic);
 
         Assert.NotNull(method);
@@ -63,7 +63,7 @@ public class AuthDetectionTests
     [Fact]
     public void Client_BaseAddress_Trims_Trailing_Slash()
     {
-        var method = typeof(NetboxResourceHandlerBase<Site, SlugIdentifiers>)
+        var method = typeof(NetboxResourceHandlerBase<Site, NameSlugIdentifiers>)
             .GetMethod("CreateHttpClient", BindingFlags.Static | BindingFlags.NonPublic);
 
         var config = new Configuration

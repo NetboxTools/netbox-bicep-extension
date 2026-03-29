@@ -13,13 +13,11 @@ extension netbox with {
 
 resource rirRipe 'RIR' = {
   name: 'RIPE NCC'
-  slug: 'ripe-ncc'
   description: 'RIPE Network Coordination Centre'
 }
 
 resource rirPrivate 'RIR' = {
   name: 'RFC 1918'
-  slug: 'rfc-1918'
   isPrivate: 'true'
   description: 'Private address space'
 }
@@ -28,13 +26,11 @@ resource rirPrivate 'RIR' = {
 
 resource roleProduction 'IPAMRole' = {
   name: 'Production'
-  slug: 'production'
   description: 'Production networks'
 }
 
 resource roleDevelopment 'IPAMRole' = {
   name: 'Development'
-  slug: 'development'
   description: 'Development/test networks'
 }
 
@@ -68,7 +64,6 @@ resource rtExport 'RouteTarget' = {
 
 resource vlanGroupDc 'VLANGroup' = {
   name: 'Datacenter VLANs'
-  slug: 'datacenter-vlans'
   description: 'VLAN pool for datacenter'
 }
 
@@ -85,13 +80,13 @@ resource dhcpRange 'IPRange' = {
 
 resource asnPrimary 'ASN' = {
   asn: 65000
-  rir: 1  // Update with actual RIR ID after deploying RIRs above
+  rir: rirRipe.id
   description: 'Primary private ASN'
 }
 
 resource asnSecondary 'ASN' = {
   asn: 65001
-  rir: 1  // Update with actual RIR ID after deploying RIRs above
+  rir: rirRipe.id
   description: 'Secondary private ASN'
 }
 

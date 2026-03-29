@@ -9,19 +9,19 @@ namespace Bicep.Extension.Netbox.Tests;
 public class IdentifierTests
 {
     [Fact]
-    public void SiteHandler_Returns_Slug()
+    public void SiteHandler_Returns_Name()
     {
         var handler = new SiteHandler();
-        var ids = InvokeGetIdentifiers(handler, new Site { Name = "Test", Slug = "test-slug" });
-        Assert.IsType<SlugIdentifiers>(ids);
-        Assert.Equal("test-slug", ((SlugIdentifiers)ids).Slug);
+        var ids = InvokeGetIdentifiers(handler, new Site { Name = "Stockholm DC1" });
+        Assert.IsType<NameSlugIdentifiers>(ids);
+        Assert.Equal("Stockholm DC1", ((NameSlugIdentifiers)ids).Name);
     }
 
     [Fact]
     public void DeviceHandler_Returns_Name()
     {
         var handler = new DeviceHandler();
-        var ids = InvokeGetIdentifiers(handler, new Device { Name = "sw-01", DeviceType = 1, Role = 1, Site = 1 });
+        var ids = InvokeGetIdentifiers(handler, new Device { Name = "sw-01", DeviceType = "1", Role = "1", Site = "1" });
         Assert.IsType<DeviceIdentifiers>(ids);
         Assert.Equal("sw-01", ((DeviceIdentifiers)ids).Name);
     }
@@ -48,7 +48,7 @@ public class IdentifierTests
     public void ASNHandler_Returns_Asn()
     {
         var handler = new ASNHandler();
-        var ids = InvokeGetIdentifiers(handler, new ASN { Asn = 65000, Rir = 1 });
+        var ids = InvokeGetIdentifiers(handler, new ASN { Asn = 65000, Rir = "1" });
         Assert.IsType<ASNIdentifiers>(ids);
         Assert.Equal(65000, ((ASNIdentifiers)ids).Asn);
     }
