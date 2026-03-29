@@ -21,3 +21,5 @@ extension-publish/
 *.env
 token.txt
 *.token
+secrets.txt
+secrets.json

@@ -41,8 +41,6 @@ public abstract class NetboxResourceHandlerBase<TProperties, TIdentifiers>
     {
         // What-if / dry-run: returns the desired state without making API calls.
         // The sample extensions (bicep-ext-github, bicep-ext-http) all do this.
-        // TODO: Enhance with NetBox API lookup to show create-vs-update diff once
-        //       we have a test environment and understand the Bicep what-if protocol better.
         return Task.FromResult(GetResponse(request));
     }
 
@@ -57,6 +55,8 @@ public abstract class NetboxResourceHandlerBase<TProperties, TIdentifiers>
         var json = System.Text.Json.JsonSerializer.Serialize(request.Properties, JsonOptions);
         var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
+        JsonElement? apiResult;
+
         if (existing != null)
         {
             // Update existing resource via PATCH
@@ -64,15 +64,39 @@ public abstract class NetboxResourceHandlerBase<TProperties, TIdentifiers>
             var patchRequest = new HttpRequestMessage(HttpMethod.Patch, $"{ApiPath}{id}/") { Content = content };
             var patchResponse = await client.SendAsync(patchRequest, cancellationToken);
             await EnsureSuccess(patchResponse, cancellationToken);
+            apiResult = await patchResponse.Content.ReadFromJsonAsync<JsonElement>(cancellationToken: cancellationToken);
         }
         else
         {
             // Create new resource via POST
             var postResponse = await client.PostAsync(ApiPath, content, cancellationToken);
             await EnsureSuccess(postResponse, cancellationToken);
+            apiResult = await postResponse.Content.ReadFromJsonAsync<JsonElement>(cancellationToken: cancellationToken);
         }
 
+        // Populate output properties from the API response
+        if (apiResult.HasValue)
+            PopulateOutputProperties(request.Properties, apiResult.Value);
+
         return GetResponse(request);
+    }
+
+    /// <summary>
+    /// Sets output properties (like Id, Url) on the resource from the NetBox API response.
+    /// Override in derived handlers for resource-specific output mapping.
+    /// </summary>
+    protected virtual void PopulateOutputProperties(TProperties properties, JsonElement apiResponse)
+    {
+        // Set Id if the model has the property (via INetboxResource)
+        if (properties is INetboxResource netboxResource)
+        {
+            if (apiResponse.TryGetProperty("id", out var idProp))
+                netboxResource.Id = idProp.GetRawText();
+            if (apiResponse.TryGetProperty("url", out var urlProp))
+                netboxResource.Url = urlProp.GetString();
+            if (apiResponse.TryGetProperty("display", out var displayProp))
+                netboxResource.Display = displayProp.GetString();
+        }
     }
 
     /// <summary>

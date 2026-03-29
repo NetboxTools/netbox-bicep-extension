@@ -11,18 +11,24 @@ extension netbox with {
   token: netboxToken
 }
 
+// ─── Site ──────────────────────────────────────────────
+
+resource siteHQ 'Site' = {
+  name: 'HQ Datacenter'
+  status: 'active'
+  description: 'Headquarters datacenter'
+}
+
 // ─── Rack Roles ────────────────────────────────────────
 
 resource roleCompute 'RackRole' = {
   name: 'Compute'
-  slug: 'compute'
   color: '4caf50'
   description: 'Compute/server racks'
 }
 
 resource roleNetworking 'RackRole' = {
   name: 'Networking'
-  slug: 'networking'
   color: '2196f3'
   description: 'Network equipment racks'
 }
@@ -31,16 +37,14 @@ resource roleNetworking 'RackRole' = {
 
 resource locBuilding1 'Location' = {
   name: 'Building 1'
-  slug: 'building-1'
-  site: 1  // Update with actual Site ID
+  site: siteHQ.id
   status: 'active'
   description: 'Main building'
 }
 
 resource locFloor2 'Location' = {
   name: 'Floor 2'
-  slug: 'floor-2'
-  site: 1  // Update with actual Site ID
+  site: siteHQ.id
   status: 'active'
   description: 'Second floor server room'
 }
@@ -49,7 +53,7 @@ resource locFloor2 'Location' = {
 
 resource rackA01 'Rack' = {
   name: 'A-01'
-  site: 1  // Update with actual Site ID
+  site: siteHQ.id
   status: 'active'
   uHeight: '42'
   description: 'Primary compute rack'
@@ -57,7 +61,7 @@ resource rackA01 'Rack' = {
 
 resource rackB01 'Rack' = {
   name: 'B-01'
-  site: 1  // Update with actual Site ID
+  site: siteHQ.id
   status: 'active'
   uHeight: '42'
   description: 'Network rack'

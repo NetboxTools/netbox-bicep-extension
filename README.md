@@ -154,39 +154,39 @@ The [Bicep VS Code extension](https://marketplace.visualstudio.com/items?itemNam
 - Hover descriptions for each property
 - Required vs optional field indicators
 
-## Supported Resource Types
+## Supported Resource Types (55)
 
-### DCIM
+For detailed property documentation, see the [Resource Type Reference](wiki/Home.md).
+
+### DCIM (13)
 
 | Bicep Type | NetBox API | Identifier | Description |
 |-----------|-----------|------------|-------------|
-| `Site` | `/api/dcim/sites/` | `slug` | Physical locations |
-| `Manufacturer` | `/api/dcim/manufacturers/` | `slug` | Hardware manufacturers |
-| `DeviceRole` | `/api/dcim/device-roles/` | `slug` | Functional roles (router, switch, etc.) |
+| `Site` | `/api/dcim/sites/` | `name` | Physical locations |
+| `Region` | `/api/dcim/regions/` | `name` | Geographic regions |
+| `SiteGroup` | `/api/dcim/site-groups/` | `name` | Logical groups of sites |
+| `Manufacturer` | `/api/dcim/manufacturers/` | `name` | Hardware manufacturers |
+| `Platform` | `/api/dcim/platforms/` | `name` | OS/firmware platforms |
+| `DeviceRole` | `/api/dcim/device-roles/` | `name` | Functional roles (router, switch, etc.) |
 | `DeviceType` | `/api/dcim/device-types/` | `slug` | Hardware models |
 | `Device` | `/api/dcim/devices/` | `name` | Physical devices |
-| `RackRole` | `/api/dcim/rack-roles/` | `slug` | Functional roles for racks |
-| `Location` | `/api/dcim/locations/` | `slug` | Locations within a site (room, floor) |
+| `Interface` | `/api/dcim/interfaces/` | `name` | Device network interfaces |
+| `RackRole` | `/api/dcim/rack-roles/` | `name` | Functional roles for racks |
+| `RackType` | `/api/dcim/rack-types/` | `slug` | Rack hardware models |
+| `Location` | `/api/dcim/locations/` | `name` | Locations within a site (room, floor) |
 | `Rack` | `/api/dcim/racks/` | `name` | Physical equipment racks |
 
-### Tenancy
+### Tenancy (5)
 
 | Bicep Type | NetBox API | Identifier | Description |
 |-----------|-----------|------------|-------------|
-| `Tenant` | `/api/tenancy/tenants/` | `slug` | Customers / business units |
+| `Tenant` | `/api/tenancy/tenants/` | `name` | Customers / business units |
+| `TenantGroup` | `/api/tenancy/tenant-groups/` | `name` | Groups of tenants |
+| `Contact` | `/api/tenancy/contacts/` | `name` | Contact people |
+| `ContactGroup` | `/api/tenancy/contact-groups/` | `name` | Groups of contacts |
+| `ContactRole` | `/api/tenancy/contact-roles/` | `name` | Contact functional roles |
 
-### Virtualization (complete)
-
-| Bicep Type | NetBox API | Identifier | Description |
-|-----------|-----------|------------|-------------|
-| `ClusterType` | `/api/virtualization/cluster-types/` | `slug` | Cluster technology (VMware, Hyper-V, Azure) |
-| `ClusterGroup` | `/api/virtualization/cluster-groups/` | `slug` | Logical groups of clusters |
-| `Cluster` | `/api/virtualization/clusters/` | `name` | Virtualization clusters |
-| `VirtualMachine` | `/api/virtualization/virtual-machines/` | `name` | Virtual machines |
-| `VMInterface` | `/api/virtualization/interfaces/` | `name` | VM network interfaces |
-| `VirtualDisk` | `/api/virtualization/virtual-disks/` | `name` | VM virtual disks |
-
-### IPAM (complete)
+### IPAM (13)
 
 | Bicep Type | NetBox API | Identifier | Description |
 |-----------|-----------|------------|-------------|
@@ -194,22 +194,95 @@ The [Bicep VS Code extension](https://marketplace.visualstudio.com/items?itemNam
 | `IPAddress` | `/api/ipam/ip-addresses/` | `address` | Individual IPs (CIDR) |
 | `IPRange` | `/api/ipam/ip-ranges/` | `startAddress` | IP address ranges |
 | `VLAN` | `/api/ipam/vlans/` | `vid` | VLANs |
-| `VLANGroup` | `/api/ipam/vlan-groups/` | `slug` | VLAN groups |
+| `VLANGroup` | `/api/ipam/vlan-groups/` | `name` | VLAN groups |
 | `VLANTranslationPolicy` | `/api/ipam/vlan-translation-policies/` | `name` | VLAN translation policies |
 | `VRF` | `/api/ipam/vrfs/` | `name` | Virtual routing instances |
 | `RouteTarget` | `/api/ipam/route-targets/` | `name` | BGP route targets |
-| `RIR` | `/api/ipam/rirs/` | `slug` | Regional Internet Registries |
+| `RIR` | `/api/ipam/rirs/` | `name` | Regional Internet Registries |
 | `Aggregate` | `/api/ipam/aggregates/` | `prefix` | Top-level IP aggregates |
-| `IPAMRole` | `/api/ipam/roles/` | `slug` | Prefix/VLAN functional roles |
+| `IPAMRole` | `/api/ipam/roles/` | `name` | Prefix/VLAN functional roles |
 | `ASN` | `/api/ipam/asns/` | `asn` | Autonomous System Numbers |
-| `ASNRange` | `/api/ipam/asn-ranges/` | `slug` | ASN ranges |
+| `ASNRange` | `/api/ipam/asn-ranges/` | `name` | ASN ranges |
 
-### Users
+### Virtualization (6)
+
+| Bicep Type | NetBox API | Identifier | Description |
+|-----------|-----------|------------|-------------|
+| `ClusterType` | `/api/virtualization/cluster-types/` | `name` | Cluster technology (VMware, Hyper-V, Azure) |
+| `ClusterGroup` | `/api/virtualization/cluster-groups/` | `name` | Logical groups of clusters |
+| `Cluster` | `/api/virtualization/clusters/` | `name` | Virtualization clusters |
+| `VirtualMachine` | `/api/virtualization/virtual-machines/` | `name` | Virtual machines |
+| `VMInterface` | `/api/virtualization/interfaces/` | `name` | VM network interfaces |
+| `VirtualDisk` | `/api/virtualization/virtual-disks/` | `name` | VM virtual disks |
+
+### Circuits (3)
+
+| Bicep Type | NetBox API | Identifier | Description |
+|-----------|-----------|------------|-------------|
+| `CircuitType` | `/api/circuits/circuit-types/` | `name` | Circuit technologies |
+| `Provider` | `/api/circuits/providers/` | `name` | Circuit providers |
+| `Circuit` | `/api/circuits/circuits/` | `cid` | Network circuits |
+
+### VPN (8)
+
+| Bicep Type | NetBox API | Identifier | Description |
+|-----------|-----------|------------|-------------|
+| `TunnelGroup` | `/api/vpn/tunnel-groups/` | `name` | Tunnel groups |
+| `Tunnel` | `/api/vpn/tunnels/` | `name` | VPN tunnels |
+| `IKEProposal` | `/api/vpn/ike-proposals/` | `name` | IKE proposals |
+| `IKEPolicy` | `/api/vpn/ike-policies/` | `name` | IKE policies |
+| `IPSecProposal` | `/api/vpn/ipsec-proposals/` | `name` | IPSec proposals |
+| `IPSecPolicy` | `/api/vpn/ipsec-policies/` | `name` | IPSec policies |
+| `IPSecProfile` | `/api/vpn/ipsec-profiles/` | `name` | IPSec profiles |
+| `L2VPN` | `/api/vpn/l2vpns/` | `name` | Layer 2 VPNs |
+
+### Wireless (3)
+
+| Bicep Type | NetBox API | Identifier | Description |
+|-----------|-----------|------------|-------------|
+| `WirelessLANGroup` | `/api/wireless/wireless-lan-groups/` | `name` | Wireless LAN groups |
+| `WirelessLAN` | `/api/wireless/wireless-lans/` | `ssid` | Wireless LANs |
+| `WirelessLink` | `/api/wireless/wireless-links/` | `interfaceA` | Wireless links |
+
+### Extras (1)
+
+| Bicep Type | NetBox API | Identifier | Description |
+|-----------|-----------|------------|-------------|
+| `Tag` | `/api/extras/tags/` | `name` | Tags for labeling resources |
+
+### Users (2)
 
 | Bicep Type | NetBox API | Identifier | Description |
 |-----------|-----------|------------|-------------|
 | `User` | `/api/users/users/` | `username` | User accounts |
 | `UserGroup` | `/api/users/groups/` | `name` | User groups for permissions |
+
+## Resource References
+
+Resources return an `id` output property after deployment. Use it to wire up relationships:
+
+```bicep
+resource region 'Region' = {
+  name: 'Sweden'
+}
+
+resource site 'Site' = {
+  name: 'Stockholm DC1'
+  status: 'active'
+  region: region.id
+}
+```
+
+All resources also return `url` and `display` as read-only output properties.
+
+## Auto-generated Slugs
+
+For resources that have a slug (sites, manufacturers, roles, etc.), the slug is **auto-generated from the name** if not provided:
+
+- `Stockholm DC1` -> `stockholm-dc1`
+- `Cisco Systems, Inc.` -> `cisco-systems-inc`
+
+You can override by explicitly providing a `slug` property.
 
 ## Sample Deployments
 
@@ -217,11 +290,11 @@ The [Bicep VS Code extension](https://marketplace.visualstudio.com/items?itemNam
 |--------|-------------|-----------|
 | [basic](samples/basic/) | Single site | 1 resource |
 | [full](samples/full/) | Multi-type overview | 7 resources |
-| [datacenter](samples/datacenter/) | Tenant, 2 sites, manufacturers, roles | 10 resources |
+| [datacenter](samples/datacenter/) | Regions, sites, manufacturers, roles | 18 resources |
 | [ipam](samples/ipam/) | VLANs, prefixes, IP addresses | 11 resources |
 | [ipam-full](samples/ipam-full/) | All IPAM types: VRFs, RIRs, ASNs, etc. | 13 resources |
-| [virtualization](samples/virtualization/) | Cluster types, clusters, VMs | 9 resources |
-| [racks-and-users](samples/racks-and-users/) | Racks, locations, users, groups | 10 resources |
+| [virtualization](samples/virtualization/) | Clusters, VMs, interfaces, disks, IPs | 19 resources |
+| [racks-and-users](samples/racks-and-users/) | Site, racks, locations, users, groups | 11 resources |
 
 Deploy any sample:
 

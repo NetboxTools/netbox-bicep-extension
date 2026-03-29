@@ -18,8 +18,20 @@ builder.Services
     .WithResourceHandler<DeviceRoleHandler>()
     .WithResourceHandler<DeviceTypeHandler>()
     .WithResourceHandler<DeviceHandler>()
+    .WithResourceHandler<RegionHandler>()
+    .WithResourceHandler<SiteGroupHandler>()
+    .WithResourceHandler<PlatformHandler>()
+    .WithResourceHandler<InterfaceHandler>()
+    .WithResourceHandler<RackTypeHandler>()
+    .WithResourceHandler<RackRoleHandler>()
+    .WithResourceHandler<LocationHandler>()
+    .WithResourceHandler<RackHandler>()
     // Tenancy
     .WithResourceHandler<TenantHandler>()
+    .WithResourceHandler<TenantGroupHandler>()
+    .WithResourceHandler<ContactHandler>()
+    .WithResourceHandler<ContactGroupHandler>()
+    .WithResourceHandler<ContactRoleHandler>()
     // IPAM
     .WithResourceHandler<PrefixHandler>()
     .WithResourceHandler<IPAddressHandler>()
@@ -41,10 +53,25 @@ builder.Services
     .WithResourceHandler<VirtualMachineHandler>()
     .WithResourceHandler<VMInterfaceHandler>()
     .WithResourceHandler<VirtualDiskHandler>()
-    // DCIM - Racks
-    .WithResourceHandler<RackRoleHandler>()
-    .WithResourceHandler<LocationHandler>()
-    .WithResourceHandler<RackHandler>()
+    // Circuits
+    .WithResourceHandler<CircuitTypeHandler>()
+    .WithResourceHandler<ProviderHandler>()
+    .WithResourceHandler<CircuitHandler>()
+    // Extras
+    .WithResourceHandler<TagHandler>()
+    // VPN
+    .WithResourceHandler<TunnelGroupHandler>()
+    .WithResourceHandler<TunnelHandler>()
+    .WithResourceHandler<IKEProposalHandler>()
+    .WithResourceHandler<IKEPolicyHandler>()
+    .WithResourceHandler<IPSecProposalHandler>()
+    .WithResourceHandler<IPSecPolicyHandler>()
+    .WithResourceHandler<IPSecProfileHandler>()
+    .WithResourceHandler<L2VPNHandler>()
+    // Wireless
+    .WithResourceHandler<WirelessLANGroupHandler>()
+    .WithResourceHandler<WirelessLANHandler>()
+    .WithResourceHandler<WirelessLinkHandler>()
     // Users
     .WithResourceHandler<UserHandler>()
     .WithResourceHandler<UserGroupHandler>();

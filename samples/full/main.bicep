@@ -13,14 +13,12 @@ extension netbox with {
 // Tenancy
 resource tenant 'Tenant' = {
   name: 'Contoso'
-  slug: 'contoso'
   description: 'Contoso Corporation'
 }
 
 // DCIM - Site
 resource site 'Site' = {
   name: 'Stockholm DC1'
-  slug: 'stockholm-dc1'
   status: 'active'
   description: 'Primary datacenter in Stockholm'
 }
@@ -28,13 +26,11 @@ resource site 'Site' = {
 // DCIM - Hardware catalog
 resource manufacturer 'Manufacturer' = {
   name: 'Cisco'
-  slug: 'cisco'
   description: 'Cisco Systems'
 }
 
 resource deviceRole 'DeviceRole' = {
   name: 'Router'
-  slug: 'router'
   color: 'aa1409'
 }
 
