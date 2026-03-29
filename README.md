@@ -290,6 +290,50 @@ Running the same deployment twice is safe. The extension:
 2. If it exists → **PATCH** (update)
 3. If it doesn't → **POST** (create)
 
+## Creating a Release
+
+Releases are created by tagging a commit on `main`. The CI pipeline automatically builds cross-platform binaries and publishes them to GitHub Releases.
+
+### Option A: Via GitHub UI (recommended)
+
+1. Go to [GitHub Releases](../../releases)
+2. Click **"Draft a new release"**
+3. Click **"Choose a tag"** → type your new tag (e.g. `v0.2.0`) → click **"Create new tag: v0.2.0 on publish"**
+4. Set **Target** to `main`
+5. Fill in the release title and description
+6. Click **"Publish release"**
+
+The release workflow will automatically build cross-platform binaries and attach them to the release within a few minutes.
+
+### Option B: Via command line
+
+```powershell
+# 1. Make sure you're on main with all changes merged
+git checkout main
+git pull
+
+# 2. Verify tests pass
+dotnet test bicep-ext-netbox.sln
+
+# 3. Tag the release (follow semantic versioning)
+git tag -a v0.2.0 -m "v0.2.0 — description of what changed"
+
+# 4. Push the tag — this triggers the release workflow
+git push origin v0.2.0
+```
+
+The release will appear at [GitHub Releases](../../releases) within a few minutes with downloadable binaries for Windows, Linux, and macOS.
+
+### Version Numbering
+
+We use [Semantic Versioning](https://semver.org/):
+
+| Change | Version bump | Example |
+|--------|-------------|---------|
+| New resource types, features | Minor | `v0.1.0` → `v0.2.0` |
+| Bug fixes, docs | Patch | `v0.2.0` → `v0.2.1` |
+| Breaking changes (model renames, removed types) | Major | `v0.2.1` → `v1.0.0` |
+
 ## Further Reading
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) — Project structure, design decisions, and how to add new resource types
