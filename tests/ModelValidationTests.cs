@@ -98,6 +98,6 @@ public class ModelValidationTests
     public void At_Least_25_Resource_Types_Exist()
     {
         var count = GetAllResourceTypes().Count();
-        Assert.True(count >= 25, $"Expected at least 25 resource types but found {count}");
+        Assert.True(count >= 30, $"Expected at least 30 resource types but found {count}");
     }
 }

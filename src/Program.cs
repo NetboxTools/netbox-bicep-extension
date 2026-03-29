@@ -40,7 +40,14 @@ builder.Services
     .WithResourceHandler<ClusterHandler>()
     .WithResourceHandler<VirtualMachineHandler>()
     .WithResourceHandler<VMInterfaceHandler>()
-    .WithResourceHandler<VirtualDiskHandler>();
+    .WithResourceHandler<VirtualDiskHandler>()
+    // DCIM - Racks
+    .WithResourceHandler<RackRoleHandler>()
+    .WithResourceHandler<LocationHandler>()
+    .WithResourceHandler<RackHandler>()
+    // Users
+    .WithResourceHandler<UserHandler>()
+    .WithResourceHandler<UserGroupHandler>();
 
 var app = builder.Build();
 app.MapBicepExtension();

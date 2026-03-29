@@ -165,6 +165,9 @@ The [Bicep VS Code extension](https://marketplace.visualstudio.com/items?itemNam
 | `DeviceRole` | `/api/dcim/device-roles/` | `slug` | Functional roles (router, switch, etc.) |
 | `DeviceType` | `/api/dcim/device-types/` | `slug` | Hardware models |
 | `Device` | `/api/dcim/devices/` | `name` | Physical devices |
+| `RackRole` | `/api/dcim/rack-roles/` | `slug` | Functional roles for racks |
+| `Location` | `/api/dcim/locations/` | `slug` | Locations within a site (room, floor) |
+| `Rack` | `/api/dcim/racks/` | `name` | Physical equipment racks |
 
 ### Tenancy
 
@@ -201,6 +204,13 @@ The [Bicep VS Code extension](https://marketplace.visualstudio.com/items?itemNam
 | `ASN` | `/api/ipam/asns/` | `asn` | Autonomous System Numbers |
 | `ASNRange` | `/api/ipam/asn-ranges/` | `slug` | ASN ranges |
 
+### Users
+
+| Bicep Type | NetBox API | Identifier | Description |
+|-----------|-----------|------------|-------------|
+| `User` | `/api/users/users/` | `username` | User accounts |
+| `UserGroup` | `/api/users/groups/` | `name` | User groups for permissions |
+
 ## Sample Deployments
 
 | Sample | Description | Resources |
@@ -211,6 +221,7 @@ The [Bicep VS Code extension](https://marketplace.visualstudio.com/items?itemNam
 | [ipam](samples/ipam/) | VLANs, prefixes, IP addresses | 11 resources |
 | [ipam-full](samples/ipam-full/) | All IPAM types: VRFs, RIRs, ASNs, etc. | 13 resources |
 | [virtualization](samples/virtualization/) | Cluster types, clusters, VMs | 9 resources |
+| [racks-and-users](samples/racks-and-users/) | Racks, locations, users, groups | 10 resources |
 
 Deploy any sample:
 
