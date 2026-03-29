@@ -18,8 +18,10 @@ public abstract class NetboxResourceHandlerBase<TProperties, TIdentifiers>
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
-        // Rely on [JsonPropertyName] attributes on each property for snake_case names.
-        // Do not set a naming policy — it would override the explicit attributes.
+        // Convert C# PascalCase property names to snake_case for the NetBox API.
+        // Do NOT use [JsonPropertyName] on model properties — the Bicep SDK uses
+        // C# property names for gRPC deserialization, and they must match.
+        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
         DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
     };
 
