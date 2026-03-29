@@ -1,0 +1,23 @@
+# Claude
+.claude/
+
+# .NET build output
+bin/
+obj/
+
+# Published extension binaries
+extension-publish/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+
+# VS Code
+.vscode/
+
+# Environment / secrets
+.env
+*.env
+token.txt
+*.token

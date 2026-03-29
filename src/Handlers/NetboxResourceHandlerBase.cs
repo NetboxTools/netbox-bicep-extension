@@ -1,0 +1,126 @@
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
+using Bicep.Local.Extension.Host.Handlers;
+
+namespace Bicep.Extension.Netbox.Handlers;
+
+/// <summary>
+/// Base handler for all NetBox resource types.
+/// Provides shared HttpClient setup, authentication, and error handling.
+/// New resource handlers only need to implement their specific API paths and lookup logic.
+/// </summary>
+public abstract class NetboxResourceHandlerBase<TProperties, TIdentifiers>
+    : TypedResourceHandler<TProperties, TIdentifiers, Configuration>
+    where TProperties : class, TIdentifiers
+    where TIdentifiers : class
+{
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        // Rely on [JsonPropertyName] attributes on each property for snake_case names.
+        // Do not set a naming policy — it would override the explicit attributes.
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+    };
+
+    /// <summary>
+    /// Returns the NetBox API path for this resource type (e.g. "/api/dcim/sites/").
+    /// Must include leading and trailing slashes.
+    /// </summary>
+    protected abstract string ApiPath { get; }
+
+    /// <summary>
+    /// Returns the query string used to look up this resource (e.g. "slug=my-site" or "name=switch01").
+    /// Used by FindExisting to determine create vs. update.
+    /// </summary>
+    protected abstract string GetLookupQuery(TProperties properties);
+
+    protected override Task<ResourceResponse> Preview(ResourceRequest request, CancellationToken cancellationToken)
+    {
+        // What-if / dry-run: returns the desired state without making API calls.
+        // The sample extensions (bicep-ext-github, bicep-ext-http) all do this.
+        // TODO: Enhance with NetBox API lookup to show create-vs-update diff once
+        //       we have a test environment and understand the Bicep what-if protocol better.
+        return Task.FromResult(GetResponse(request));
+    }
+
+    protected override async Task<ResourceResponse> CreateOrUpdate(ResourceRequest request, CancellationToken cancellationToken)
+    {
+        var config = request.Config!;
+        using var client = CreateHttpClient(config);
+
+        // Try to find existing resource by its unique lookup
+        var existing = await FindExisting(client, request.Properties, cancellationToken);
+
+        var json = System.Text.Json.JsonSerializer.Serialize(request.Properties, JsonOptions);
+        var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+        if (existing != null)
+        {
+            // Update existing resource via PATCH
+            var id = existing.Value.GetProperty("id").GetInt32();
+            var patchRequest = new HttpRequestMessage(HttpMethod.Patch, $"{ApiPath}{id}/") { Content = content };
+            var patchResponse = await client.SendAsync(patchRequest, cancellationToken);
+            await EnsureSuccess(patchResponse, cancellationToken);
+        }
+        else
+        {
+            // Create new resource via POST
+            var postResponse = await client.PostAsync(ApiPath, content, cancellationToken);
+            await EnsureSuccess(postResponse, cancellationToken);
+        }
+
+        return GetResponse(request);
+    }
+
+    /// <summary>
+    /// Creates an HttpClient configured with the NetBox base URL and auth token.
+    /// </summary>
+    protected static HttpClient CreateHttpClient(Configuration config)
+    {
+        var client = new HttpClient
+        {
+            BaseAddress = new Uri(config.Url.TrimEnd('/'))
+        };
+        // NetBox v4+ uses Bearer auth with nbt_ prefixed tokens; older versions use Token auth
+        var scheme = config.Token.StartsWith("nbt_") ? "Bearer" : "Token";
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme, config.Token);
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        return client;
+    }
+
+    /// <summary>
+    /// Looks up an existing resource using the handler's lookup query. Returns the JSON element if found.
+    /// </summary>
+    private async Task<JsonElement?> FindExisting(HttpClient client, TProperties properties, CancellationToken cancellationToken)
+    {
+        var query = GetLookupQuery(properties);
+        var response = await client.GetAsync($"{ApiPath}?{query}", cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+            return null;
+
+        var json = await response.Content.ReadFromJsonAsync<JsonElement>(cancellationToken: cancellationToken);
+
+        if (json.TryGetProperty("results", out var results) && results.GetArrayLength() > 0)
+            return results[0];
+
+        return null;
+    }
+
+    /// <summary>
+    /// Throws a structured error if the HTTP response indicates failure.
+    /// </summary>
+    protected static async Task EnsureSuccess(HttpResponseMessage response, CancellationToken cancellationToken)
+    {
+        if (response.IsSuccessStatusCode)
+            return;
+
+        var body = await response.Content.ReadAsStringAsync(cancellationToken);
+        throw new ResourceErrorException(new Error
+        {
+            Code = ((int)response.StatusCode).ToString(),
+            Message = $"NetBox API returned {(int)response.StatusCode} {response.StatusCode}: {body}"
+        });
+    }
+}
